@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useQuiz } from '../../context/QuizContext';
 
@@ -20,15 +19,17 @@ export default function QuestionPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
-
   const [timer, setTimer] = useState(10);
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
 
-  const [shuffledAnswers, setShuffledAnswers] = useState([]); // ⬅️ جديد!
+  // 🔁 Funktion til at gå til næste spørgsmål
+  const goToNextQuestion = useCallback(() => {
+    router.push(`/quiz/${questionNumber + 1}?category=${category}&difficulty=${difficulty}&amount=${amount}`);
+  }, [router, questionNumber, category, difficulty, amount]);
 
-  // Fetch questions (Only once)
+  // 📥 Henter spørgsmål fra API når komponenten loader første gang
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -53,7 +54,7 @@ export default function QuestionPage() {
     }
   }, [amount, category, difficulty, setQuestions, questions.length, loading]);
 
-  // Timer
+  // ⏳ Starter en 10 sekunders timer for hvert spørgsmål
   useEffect(() => {
     if (loading || showFeedback) return;
 
@@ -72,20 +73,14 @@ export default function QuestionPage() {
     return () => clearInterval(interval);
   }, [loading, showFeedback, questionNumber, goToNextQuestion]);
 
-
-  const goToNextQuestion = useCallback(() => {
-  router.push(`/quiz/${questionNumber + 1}?category=${category}&difficulty=${difficulty}&amount=${amount}`);
-}, [router, questionNumber, category, difficulty, amount]);
-
-
-  // Go to /result when finished — FIX (useEffect instead of render)
+  // ✅ Sender brugeren videre til resultatsiden når alle spørgsmål er færdige
   useEffect(() => {
     if (questions.length > 0 && questionNumber > questions.length) {
       router.push('/result');
     }
   }, [questions, questionNumber, router]);
 
-  // Shuffle answers when question changes
+  // 🔀 Blander svarene for det aktuelle spørgsmål
   useEffect(() => {
     if (questions.length === 0) return;
 
@@ -100,6 +95,22 @@ export default function QuestionPage() {
     setShuffledAnswers(shuffled);
   }, [questions, questionNumber]);
 
+  // ✅ Behandler klik på et svar
+  const handleAnswerClick = (answer) => {
+    if (showFeedback) return;
+
+    setSelectedAnswer(answer);
+    setShowFeedback(true);
+
+    setTimeout(() => {
+      if (answer === questions[questionNumber - 1].correct_answer) {
+        addScore();
+      }
+      goToNextQuestion();
+    }, 1000);
+  };
+
+  // ⌛ Viser loading-indikator
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-green-100 space-y-4">
@@ -114,6 +125,7 @@ export default function QuestionPage() {
     );
   }
 
+  // ⚠️ Viser fejlbesked hvis noget gik galt
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-red-100">
@@ -122,6 +134,7 @@ export default function QuestionPage() {
     );
   }
 
+  // ❌ Hvis ingen spørgsmål blev hentet
   if (!questions || !Array.isArray(questions) || questions.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-yellow-100">
@@ -132,23 +145,10 @@ export default function QuestionPage() {
 
   const currentQuestion = questions[questionNumber - 1];
 
+  // 🔕 Beskytter mod rendering fejl
   if (!currentQuestion) {
-    return null; // No UI glitch
+    return null;
   }
-
-  const handleAnswerClick = (answer) => {
-    if (showFeedback) return;
-
-    setSelectedAnswer(answer);
-    setShowFeedback(true);
-
-    setTimeout(() => {
-      if (answer === currentQuestion.correct_answer) {
-        addScore();
-      }
-      goToNextQuestion();
-    }, 1000);
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-green-100 p-6 space-y-6">
