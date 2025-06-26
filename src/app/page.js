@@ -11,18 +11,21 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // نروح على أول سؤال مع الباراميترات
     router.push(`/quiz/1?category=${category}&difficulty=${difficulty}&amount=${amount}`);
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start overflow-y-auto bg-gradient-to-r from-blue-200 to-blue-400 p-6">
-      <h1 className="text-5xl font-extrabold mb-8 text-blue-900">🎉 Quiz App 🎉</h1>
+      <h1 className="text-5xl font-extrabold mb-4 text-blue-900">🎉 Quiz App 🎉</h1>
+    <p className="text-center text-lg text-gray-700 mb-6 leading-relaxed max-w-xl">
+  Ready to challenge your mind? Choose a category, pick the difficulty level, and decide how many questions you want. Let the fun begin and see how much you really know! 🎯
+</p>
+
+
 
       <form
         onSubmit={handleSubmit}
-        className="mt-10 md:mt-32 bg-white p-8 rounded-xl shadow-lg space-y-6 w-full max-w-md"
+        className="mt-6 md:mt-12 bg-white p-8 rounded-xl shadow-lg space-y-6 w-full max-w-md"
       >
         <div>
           <label className="block mb-2 font-semibold text-gray-700">Category:</label>

@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useQuiz } from '../../context/QuizContext';
 
@@ -69,11 +70,13 @@ export default function QuestionPage() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [loading, showFeedback, questionNumber]);
+  }, [loading, showFeedback, questionNumber, goToNextQuestion]);
 
-  const goToNextQuestion = () => {
-    router.push(`/quiz/${questionNumber + 1}?category=${category}&difficulty=${difficulty}&amount=${amount}`);
-  };
+
+  const goToNextQuestion = useCallback(() => {
+  router.push(`/quiz/${questionNumber + 1}?category=${category}&difficulty=${difficulty}&amount=${amount}`);
+}, [router, questionNumber, category, difficulty, amount]);
+
 
   // Go to /result when finished — FIX (useEffect instead of render)
   useEffect(() => {
