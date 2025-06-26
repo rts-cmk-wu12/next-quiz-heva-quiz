@@ -1,48 +1,36 @@
-# Byg en Quiz-App med Next.js, Tailwind og Open Trivia API
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Formål
-Du skal bygge en interaktiv quiz-applikation, hvor brugeren kan vælge kategori og sværhedsgrad, og derefter besvare spørgsmål hentet fra Open Trivia Database API.
+## Getting Started
 
-## Teknologier
-- Next.js (React-baseret framework)
-- Tailwind CSS (til styling)
-- Open Trivia Database API (https://opentdb.com/api_config.php)
+First, run the development server:
 
-## Krav til funktionalitet
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-1. **Startside**
-   - Velkomstbesked og kort introduktion til quizzen.
-   - Mulighed for at vælge:
-     - Kategori (f.eks. sport, historie, film)
-     - Sværhedsgrad (easy, medium, hard)
-     - Antal spørgsmål
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-2. **Quiz-side**
-   - Hent spørgsmål fra Open Trivia API baseret på brugerens valg.
-   - Vis ét spørgsmål ad gangen med 4 svarmuligheder.
-   - Brugeren kan vælge et svar og gå videre til næste spørgsmål.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-3. **Resultatside**
-   - Vis antal rigtige svar.
-   - Mulighed for at starte en ny quiz.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Designkrav
-- Brug Tailwind til at lave et simpelt, responsivt og brugervenligt design.
-- Brug farver og ikoner til at gøre quizzen mere engagerende.
-- Giv visuel feedback på rigtige og forkerte svar.
+## Learn More
 
-## Ekstra udfordringer (valgfrit)
-- Tilføj en timer til hvert spørgsmål.
-- Gem high scores i localStorage.
-- Tilføj en loading-animation mens spørgsmålene hentes.
-- Lav en dark mode.
+To learn more about Next.js, take a look at the following resources:
 
-## API Info
-Eksempel på API-kald:
-https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Vurderingskriterier
-- Funktionalitet: Opfylder appen kravene?
-- Kodekvalitet: Er koden struktureret og forståelig?
-- Design: Er brugeroplevelsen god og layoutet pænt?
-- Brug af API: Hentes og vises data korrekt?
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
